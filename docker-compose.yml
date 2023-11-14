@@ -1,0 +1,46 @@
+services:
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+  discovery-server:
+    ports:
+      - 8761:8761
+    build: /discovery-server
+  api-gateway:
+    ports:
+      - 8181:8181
+    build: /api-gateway
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka
+  auth-service:
+    ports:
+      - 9004:9004
+    build: /auth-service
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka
+  quotation-management-system:
+    ports:
+      - 9098:9098
+    build: /quotation-management-system
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka
+      - spring.data.mongodb.host=mongodb
+  product-management-system:
+    ports:
+      - 9091:9091
+    build: /product-management-system
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka
+      - spring.data.mongodb.host=mongodb
+  rule-engine:
+    ports:
+      - 9095:9095
+    build: /rule-engine
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka
+      - spring.data.mongodb.host=mongodb
+volumes:
+  dbdata6:

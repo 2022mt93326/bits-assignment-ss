@@ -1,0 +1,35 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+plugins {
+    id 'com.bmuschko.docker-remote-api' version '9.3.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+docker {
+    url = 'unix:///var/run/docker.sock'
+    registryCredentials {
+        url = 'https://index.docker.io/v1/'
+        username = '2022mt93326'
+        password = 'dckr_pat_8VZ-0lTYL0vimrO7Z7tNISf3tXk'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testImplementation 'junit:junit:4.13.1'
+    }
+}
